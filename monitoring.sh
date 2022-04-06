@@ -1,9 +1,9 @@
-#!/bin/bash
-arc=$(uname -a)
-pcpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l)
-vcpu=$(grep "^processor" /proc/cpuinfo | wc -l)
-fram=$(free -m | awk '$1 == "Mem:" {print $2}')
-uram=$(free -m | awk '$1 == "Mem:" {print $3}')
+#!/bin/bash //tells the OS to invoke the shell and run the following commands
+arc=$(uname -a) // uname prints basic system information. -a displays all available information
+pcpu=$(grep "physical id" /proc/cpuinfo | sort | uniq | wc -l) // search for the line "physical id" in /proc/cpuinfo and return them. Then sort sorts the response, removes the duplicates (uniq), does a count of the lines (wc) and prints the number of lines (-l)
+vcpu=$(grep "^processor" /proc/cpuinfo | wc -l) // replaces "physical id" in the previous command with "processor" and runs the command
+fram=$(free -m | awk '$1 == "Mem:" {print $2}') // displays the memory usage in MB (-m). Print the figure in field 2 (print $2)
+uram=$(free -m | awk '$1 == "Mem:" {print $3}') // displays the memory usage in MB (-m). Print the figure in field 3 (print $3)
 pram=$(free | awk '$1 == "Mem:" {printf("%.2f"), $3/$2*100}')
 fdisk=$(df -Bg | grep '^/dev/' | grep -v '/boot$' | awk '{ft += $2} END {print ft}')
 udisk=$(df -Bm | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} END {print ut}')

@@ -14,7 +14,7 @@ lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; 
 ctcp=$(ss -neopt state established | wc -l)// ss shows socket statistics, -neopt state established will show you only TCP sessions established. count and return the number of lines.
 ulog=$(users | wc -w)// the users command will print the users logged in on a single line. the wc -w command will count the number of words and return the total
 ip=$(hostname -I)// hostname will return the current host name and domain name on a line. -I will show network address of the host
-mac=$(ip link | grep "ether" | awk '{print $2}') // show MAC (Media Access Control) address of your server
+mac=$(ifconfig -a | grep "ether" | awk '{print $2}') // show MAC (Media Access Control) address of your server
 cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)// journalctl gets all the journal entries for sudo, filter by COMMAND to get all commands run by sudo then count the lines and return
 wall "	#Architecture: $arc
 	#CPU physical: $pcpu

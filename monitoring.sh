@@ -10,13 +10,12 @@ udisk=$(df -Bm | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} END {print u
 pdisk=$(df -Bm | grep '^/dev/' | grep -v '/boot$' | awk '{ut += $3} {ft+= $2} END {printf("%d"), ut/ft*100}')
 cpul=$(top -bn1 | grep '^%Cpu' | cut -c 9- | xargs | awk '{printf("%.1f%%"), $1 + $3}')
 lb=$(who -b | awk '$1 == "system" {print $3 " " $4}')
-lvmt=$(lsblk | grep "lvm" | wc -l)
-lvmu=$(if [ $lvmt -eq 0 ]; then echo no; else echo yes; fi)
-ctcp=$(cat /proc/net/sockstat{,6} | awk '$1 == "TCP:" {print $3}')
-ulog=$(users | wc -w)
-ip=$(hostname -I)
-mac=$(ip link show | awk '$1 == "link/ether" {print $2}')
-cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
+lvmu=$(if [ $(lsblk | grep "lvm" | wc -l) -eq 0 ]; then echo no; else echo yes; fi) //is lvm active? return yes if true no if false. fi closes the if statement.
+ctcp=$(ss -neopt state established | wc -l)// ss shows socket statistics, -neopt state established will show you only TCP sessions established. count and return the number of lines.
+ulog=$(users | wc -w)// the users command will print the users logged in on a single line. the wc -w command will count the number of words and return the total
+ip=$(hostname -I)// hostname will return the current host name and domain name on a line. -I will show network address of the host
+mac=$(ip link | grep "ether" | awk '{print $2}') // show MAC (Media Access Control) address of your server
+cmds=$(journalctl _COMM=sudo | grep COMMAND | wc -l)// journalctl gets all the journal entries for sudo, filter by COMMAND to get all commands run by sudo then count the lines and return
 wall "	#Architecture: $arc
 	#CPU physical: $pcpu
 	#vCPU: $vcpu

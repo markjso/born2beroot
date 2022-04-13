@@ -1,2 +1,1 @@
-## Acknowledgement
-* To https://github.com/HEADLIGHTER for the monitoring.sh file
+Monitoring.sh file originally created by https://github.com/HEADLIGHTER I have made some minor changes after doing some of my own research for Born2beetroot
